@@ -1,0 +1,136 @@
+body{
+    padding: 0;
+    margin: 0;
+    background: #bbb;
+    text-align: center;
+    font-family: 'VT323', mono;
+}
+
+#game-wrapper{
+    min-height: 300px;
+}
+
+#player-controls{
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+}
+
+#controls-state-menu{
+    position: absolute;
+    width: 100%;
+}
+
+#controls-state-game{
+    position: absolute;
+    width: 100%;
+    display: none;
+}
+
+#player-controls-start{
+    margin-top: 20px;
+}
+
+#player-controls-start button{
+    font-size: 1em;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.game-image-container{
+
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 300px;
+    margin: 0 auto;
+}
+
+#player-image-container, #computer-image-container{
+    padding: 10px;
+    background: white;
+    height: 100%;
+    border: 5px solid black;
+}
+
+#vs-image-container{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: end;
+    background: white;
+    border: 5px solid black;
+    gap: 5px;
+    padding: 3px 2px;
+}
+
+.vs-container-point{
+    height: 100%;
+    width: 20px;
+    background: white;   
+}
+
+#game-message-status{
+    padding: 20px;
+    font-size: 25px;
+}
+
+#player-image, #computer-image{
+    height: 200px;
+}
+
+.game-user-title{
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.btn-player-choice{
+    height: 80px;
+    width: auto;
+    margin: auto 2px;
+}
+.img-player-choice{
+    height:80%;
+    width: auto;
+}
+
+#gameover-container{
+    display: flex;
+    background:white;
+    position: absolute;
+    width: inherit;
+    height: 275px;
+    flex-direction: column;
+    border: 5px solid black;
+    display: none;
+
+}
+
+#gameover-score-container{
+    height: 100%;
+    margin: 10px;
+}
+
+#gameover-score{
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+.match-result-title{
+    margin: 10px 0 5px 0;
+}
+
+.tbl-gameover-results{
+    border: 2px solid black;
+    text-align: left;
+    width: 100%;
+    font-size: 12px;
+}
+
+#gameover-end-message{
+    
+    margin: 5px 0 0 0;
+    padding: 0;
+    font-weight: bold;
+}

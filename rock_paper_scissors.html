@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors JavaScript Game</title>
+        <link href="./assets/stylesheets/style1.css" type="text/css" rel="stylesheet"/>
+        <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
+    </head>
+
+    <body>
+        <h1>Rock Paper Scissors</h1> 
+        <h2>Can you beat the computer?</h2>
+        <section id="game-wrapper">
+
+            <div id="player-controls">
+                <form>
+                    <div id="controls-state-game">
+                        <button type="button" id="btn-player-rock" class="btn-player-choice" value="rock"><img src="./assets/images/rock.gif" class="img-player-choice"></button>
+                        <button type="button" id="btn-player-paper" class="btn-player-choice" value="paper"><img src="./assets/images/paper.gif" class="img-player-choice"></button>
+                        <button type="button" id="btn-player-scissors" class="btn-player-choice" value="scissors"><img src="./assets/images/scissors.gif" class="img-player-choice"></button>
+                    </div>
+                    <div id="controls-state-menu">
+                        <div id="player-controls-start">
+                        <button type="button" onclick="game()" id="btn-start-game">Play!</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="game-image-container">              
+                <div id="player-image-container">
+                    <div class="game-user-title">Player</div>
+                    <img src="./assets/images/paper.gif" id="player-image">
+                </div>
+                <div id="vs-image-container">
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>
+                    <div class="vs-container-point"></div>           
+                </div>
+                <div id="computer-image-container">
+                    <div class="game-user-title">Computer</div>
+                    <img src="./assets/images/paper.gif" id="computer-image">
+                </div>
+                <div id="gameover-container">
+                    <div id="gameover-score-container">
+                        <p class="match-result-title">Match result:</p>
+                        <div id="gameover-score">
+                            <table class="tbl-gameover-results">
+                                <tbody>
+                                    <tr>
+                                        <th>No.:</th>
+                                        <th>Winner:</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>                                     
+                                    <tr>
+                                        <td>5</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>9</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td class="gameover-result-winner">Player</td>
+                                    </tr> 
+                                </tbody>
+                            </table>
+                            <p id="gameover-end-message">Winner: Player (0 - 1)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <div id="game-message-status"></div>
+
+        </section>
+
+        <script>
+            const gameChoices = ["Rock", "Paper", "Scissors"];
+  
+            // Random Number Generator
+            const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+            let computerSelection;
+            let playerSelection;
+
+            let currentPlayerScore = 0;
+            let currentComputerScore = 0;
+            let currentRound = 0;
+            let currentMatchRecord = [];
+            
+            // Computer choosing which hand to play
+            function computerPlay(){
+                let rngValue = getRandomNumber(0, 2);
+                let result;
+                if(rngValue == 0){
+                    document.getElementById("computer-image").src = "./assets/images/rock.gif";
+                    result = gameChoices[0];
+                } else if(rngValue == 1) {
+                    document.getElementById("computer-image").src = "./assets/images/paper.gif";
+                    result = gameChoices[1];
+                } else if(rngValue == 2) {
+                    document.getElementById("computer-image").src = "./assets/images/scissors.gif";
+                    result = gameChoices[2];
+                }
+                return result;
+            }
+         
+            // Player chosen which hand to play
+            function playerPlay(choice){
+                playerSelection = choice;
+                if(playerSelection.toLowerCase() == gameChoices[0].toLowerCase()){      
+                    document.getElementById("player-image").src = "./assets/images/rock.gif";
+                    
+                } else if(playerSelection.toLowerCase() == gameChoices[1].toLowerCase()) {
+                    document.getElementById("player-image").src = "./assets/images/paper.gif";
+
+                } else if(playerSelection.toLowerCase() == gameChoices[2].toLowerCase()) {
+                    document.getElementById("player-image").src = "./assets/images/scissors.gif";
+                }                      
+                computerSelection = computerPlay();
+                playRound(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1),computerSelection);
+            }
+
+            // Playing a round between the computer and the player
+            function playRound(ps, cs){
+
+                let roundWinner;
+                let roundWinnerMessage;
+                ps = gameChoices.indexOf(ps);
+                cs = gameChoices.indexOf(cs);
+
+                // Draw
+                if(ps == cs){
+                    roundWinnerMessage = "Draw.";
+                    roundWinner = "Draw";
+                // Win
+                } else if ((ps - cs + 3) % 3 == 1){
+                    roundWinnerMessage = "Win!";
+                    roundWinner = "Player";
+                // Loss
+                } else {
+                    roundWinnerMessage = "Lose.";
+                    roundWinner = "Computer";
+                }
+
+                var vsContainerPoints = document.getElementsByClassName("vs-container-point");
+                if(roundWinner == "Player"){
+                    vsContainerPoints[currentRound].style.background = "green";
+                } else if (roundWinner == "Computer"){
+                    vsContainerPoints[currentRound].style.background = "red";
+                }
+                
+                displayGameMessage("Round " + (currentRound + 1) + ": " + roundWinnerMessage);  
+                if(roundWinner != "Draw"){
+                    currentRound++;
+                    currentMatchRecord.push(roundWinner);
+                }          
+            }
+
+            function game(){
+                gameInit();
+            }
+
+            function gameInit(){
+                currentRound = 0;
+                currentPlayerScore = 0;
+                currentComputerScore = 0;
+                currentMatchRecord = [];
+                document.getElementById("controls-state-menu").style.display = "none";
+                document.getElementById("controls-state-game").style.display = "block";
+                document.getElementById("gameover-container").style.display = "none";
+                var vsContainerPoints = document.getElementsByClassName("vs-container-point");
+                for(var i = 0; i < vsContainerPoints.length; i++){
+                    vsContainerPoints[i].style.background = "white";
+                }
+                displayGameMessage("");
+            }
+
+            function gameEnd(){
+                document.getElementById("controls-state-menu").style.display = "block";
+                document.getElementById("controls-state-game").style.display = "none";
+                document.getElementById("gameover-container").style.display = "block";
+                calcCurrentMatchScore()
+            }
+
+            function calcCurrentMatchScore(){
+                let matchWinner;
+                for(var i = 0; i < currentMatchRecord.length; i++){
+                    if(currentMatchRecord[i] == "Player"){
+                        currentPlayerScore++;
+                    } else if (currentMatchRecord[i] == "Computer"){
+                        currentComputerScore++;                    
+                    }
+                }
+                if(currentPlayerScore > currentComputerScore)
+                    matchWinner = "Player";
+                else if(currentPlayerScore < currentComputerScore)
+                    matchWinner = "Computer";
+                else
+                    matchWinner = "Draw";
+
+                var tblGameoverResultWinner = document.getElementsByClassName("gameover-result-winner");
+
+                for(var i = 0; i < tblGameoverResultWinner.length; i++){
+                    tblGameoverResultWinner[i].innerHTML = currentMatchRecord[i];
+                }
+                document.getElementById("gameover-end-message").innerHTML = "Winner: " + matchWinner + " (" + currentPlayerScore + " - " + currentComputerScore + ")";           
+            }
+
+            function displayGameMessage(str){
+                document.getElementById("game-message-status").innerHTML = str;
+            }
+            
+            //  Button click: Rock
+            document.getElementById("btn-player-rock").addEventListener("click", function(){
+                if(currentRound < 10){
+                    playerPlay("rock");
+                }
+                if(currentRound == 10) {
+                    gameEnd();
+                }              
+            })
+
+            // Button click: Paper
+            document.getElementById("btn-player-paper").addEventListener("click", function(){
+                if(currentRound < 10){
+                    playerPlay("paper");
+                } 
+                if(currentRound == 10) {
+                    gameEnd();
+                }          
+            })
+
+            // Button click: Scissors
+            document.getElementById("btn-player-scissors").addEventListener("click", function(){
+                if(currentRound < 10){
+                    playerPlay("scissors");
+                }
+                    if(currentRound == 10) {
+                    gameEnd();
+                }    
+            })
+        </script>
+    </body>
+</html>
